@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RequAi Digital Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    :root {
+      --primary: #0061a8;
+      --secondary: #00c2ff;
+      --accent: #ff6b6b;
+      --light: #f8f9fa;
+      --dark: #1f2933;
+      --gray: #e5e7eb;
+      --success: #28a745;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Inter", sans-serif;
+      background: #f4f6f9;
+      color: var(--dark);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      padding: 3.5rem 1rem 2.5rem;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    
+    header h1 {
+      font-size: 2.75rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+    }
+    
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      font-weight: 500;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2.5rem auto 3rem;
+      padding: 0 1.5rem;
+      flex-grow: 1;
+    }
+
+    .search-section {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    
+    .search-box {
+      display: inline-flex;
+      max-width: 550px;
+      width: 100%;
+      position: relative;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 14px 22px;
+      border: 2px solid var(--gray);
+      border-radius: 50px;
+      font-size: 1.05rem;
+      outline: none;
+      transition: var(--transition);
+    }
+    
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(0, 97, 168, 0.2);
+    }
+    
+    .search-box button {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+      background: var(--primary);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      padding: 8px 18px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .search-box button:hover {
+      background: var(--secondary);
+      transform: scale(1.05);
+    }
+
+    .filter-section {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+    
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .filter-btn {
+      background: #fff;
+      border: 2px solid var(--gray);
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--dark);
+      transition: var(--transition);
+      user-select: none;
+      min-width: 100px;
+      text-align: center;
+      flex-grow: 1;
+    }
+    
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+      box-shadow: 0 5px 15px rgba(0, 97, 168, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .category {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 3.5rem;
+      padding: 2.5rem;
+      transition: var(--transition);
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .category.hidden {
+      display: none;
+    }
+    
+    .category:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 2px solid var(--gray);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .category-header i {
+      color: var(--primary);
+      font-size: 1.8rem;
+      min-width: 35px;
+      text-align: center;
+    }
+    
+    .category h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .paket-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .paket {
+      background: var(--light);
+      padding: 2rem 1.5rem;
+      border-radius: 14px;
+      border: 1.5px solid #d7dce0;
+      text-align: center;
+      transition: var(--transition);
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .paket::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    
+    .paket:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .paket:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+      transform: translateY(-8px);
+    }
+    
+    .paket h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+    }
+    
+    .paket .price {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #2b2b2b;
+      letter-spacing: 0.03em;
+    }
+    
+    .paket .features {
+      margin-bottom: 1.8rem;
+      font-size: 0.95rem;
+      color: #555;
+      flex-grow: 1;
+    }
+    
+    .paket .features div {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .paket .btn {
+      background: var(--secondary);
+      color: white;
+      padding: 12px 0;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(0, 194, 255, 0.4);
+      transition: var(--transition);
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .paket .btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    
+    .paket .btn:hover::after {
+      transform: translateX(0);
+    }
+    
+    .paket .btn:hover {
+      background: var(--primary);
+      box-shadow: 0 8px 20px rgba(0, 97, 168, 0.6);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background: var(--dark);
+      color: #e0e0e0;
+      text-align: center;
+      padding: 3rem 1rem;
+      font-weight: 500;
+      user-select: none;
+      margin-top: auto;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      text-align: left;
+    }
+    
+    .footer-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .footer-section h3 {
+      color: #fff;
+      margin-bottom: 1.2rem;
+      font-size: 1.3rem;
+    }
+    
+    .footer-section p, .footer-section a {
+      color: #ccc;
+      margin-bottom: 0.8rem;
+      display: block;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-section a:hover {
+      color: var(--secondary);
+    }
+    
+    .social-icons {
+      display: flex;
+      gap: 15px;
+      margin-top: 1.2rem;
+    }
+    
+    .social-icons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+    
+    .social-icons a:hover {
+      background: var(--primary);
+      transform: translateY(-4px);
+    }
+    
+    .copyright {
+      margin-top: 3rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      grid-column: 1 / -1;
+      text-align: center;
+    }
+
+    /* === NAVIGASI === */
+    .nav-container {
+      position: absolute;
+      top: 1.2rem;
+      left: 1.5rem;
+      z-index: 1000;
+    }
+
+    .nav-toggle {
+      font-size: 1.7rem;
+      cursor: pointer;
+      color: #fff;
+      background: rgba(0,0,0,0.2);
+      padding: 10px 12px;
+      border-radius: 12px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+    }
+    
+    .nav-toggle:hover {
+      background: rgba(0,0,0,0.35);
+      transform: rotate(90deg);
+    }
+
+    .nav-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 998;
+    }
+    
+    .nav-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 280px;
+      height: 100%;
+      background: #fff;
+      box-shadow: 5px 0 20px rgba(0,0,0,0.15);
+      transition: left 0.4s ease;
+      z-index: 999;
+      padding-top: 4.5rem;
+      overflow-y: auto;
+    }
+    
+    .nav-menu.active {
+      left: 0;
+    }
+    
+    .nav-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .nav-menu li {
+      border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .nav-menu a {
+      display: flex;
+      align-items: center;
+      padding: 16px 22px;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--dark);
+      transition: var(--transition);
+    }
+    
+    .nav-menu a i {
+      margin-right: 14px;
+      font-size: 1.3rem;
+      width: 26px;
+      text-align: center;
+    }
+    
+    .nav-menu a:hover {
+      background: var(--primary);
+      color: #fff;
+      padding-left: 28px;
+    }
+    
+    .nav-menu .user-info {
+      padding: 18px 22px;
+      background: var(--light);
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .nav-menu .user-info img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    .nav-menu .user-info div {
+      font-size: 0.95rem;
+    }
+    
+    .nav-menu .user-info .name {
+      font-weight: 700;
+    }
+    
+    .nav-menu .user-info .email {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Animasi */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .category {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    /* Notification badge */
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 12px;
+    }
+    
+    .badge-new {
+      background: var(--accent);
+      color: white;
+    }
+    
+    /* Scroll to top button */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 35px;
+      right: 35px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: var(--transition);
+      opacity: 0;
+      visibility: hidden;
+      z-index: 99;
+    }
+    
+    .scroll-to-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .scroll-to-top:hover {
+      background: var(--secondary);
+      transform: translateY(-6px);
+    }
+    
+    /* Modal Order Form */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 480px;
+      padding: 2.5rem;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      transform: translateY(-25px);
+      transition: transform 0.4s ease;
+    }
+    
+    .modal-overlay.active .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid var(--gray);
+      padding-bottom: 1.2rem;
+    }
+    
+    .modal-header h2 {
+      color: var(--primary);
+      font-size: 1.6rem;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #999;
+      transition: color 0.3s;
+    }
+    
+    .modal-close:hover {
+      color: var(--accent);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--gray);
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .form-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0, 97, 168, 0.2);
+    }
+    
+    .form-submit {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: var(--transition);
+      margin-top: 1.2rem;
+    }
+    
+    .form-submit:hover {
+      background: var(--secondary);
+      transform: translateY(-2px);
+    }
+    
+    .package-info {
+      background: var(--light);
+      padding: 1.2rem;
+      border-radius: 10px;
+      margin-bottom: 1.8rem;
+      text-align: center;
+    }
+    
+    .package-info h3 {
+      color: var(--primary);
+      margin-bottom: 0.6rem;
+      font-size: 1.3rem;
+    }
+    
+    .package-info .price {
+      font-weight: 700;
+      color: var(--dark);
+      font-size: 1.2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .paket-list {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      }
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 3rem 1rem 2rem;
+      }
+      
+      header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .container {
+        padding: 0 1rem;
+        margin: 2rem auto;
+      }
+      
+      .category {
+        padding: 1.8rem;
+        margin-bottom: 2.5rem;
+      }
+      
+      .category-header h2 {
+        font-size: 1.5rem;
+      }
+      
+      .paket-list {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+      
+      .modal {
+        padding: 2rem;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      header h1 {
+        font-size: 1.9rem;
+      }
+      
+      header p {
+        font-size: 1.05rem;
+      }
+      
+      .search-box input {
+        padding: 12px 18px;
+      }
+      
+      .filter-buttons {
+        gap: 0.6rem;
+      }
+      
+      .filter-btn {
+        min-width: 85px;
+        padding: 8px 12px;
+        font-size: 0.9rem;
+      }
+      
+      .paket-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+      }
+      
+      .social-icons {
+        justify-content: center;
+      }
+      
+      .nav-container {
+        left: 1rem;
+        top: 1rem;
+      }
+      
+      .scroll-to-top {
+        bottom: 25px;
+        right: 25px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 1.7rem;
+      }
+      
+      .category {
+        padding: 1.5rem;
+      }
+      
+      .category-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+      }
+      
+      .category-header h2 {
+        font-size: 1.4rem;
+      }
+      
+      .paket {
+        padding: 1.8rem 1.2rem;
+      }
+      
+      .modal {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="nav-toggle" aria-label="Toggle navigation menu"><i class="fas fa-bars"></i></div>
+    </div>
+    <h1><i class="fas fa-server" style="font-size: 2.5rem;"></i> RequAi Digital Store</h1>
+    <p>Panel Hosting Cepat, Aman & Terpercaya</p>
+  </header>
+
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <nav class="nav-menu" id="navMenu">
+    <div class="user-info">
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiBmaWxsPSIjMDA2MWE4Ij48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2U1ZTdlYiIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIiBmaWxsPSIjMDA2MWE4Ij5SPC90ZXh0Pjwvc3ZnPg==" alt="User Avatar">
+      <div>
+        <div class="name">Guest User</div>
+        <div class="email">guest@example.com</div>
+      </div>
+    </div>
+    <ul>
+      <li><a href="#"><i class="fas fa-home"></i> Beranda</a></li>
+      <li><a href="#"><i class="fas fa-shopping-cart"></i> Paket Layanan</a></li>
+      <li><a href="#"><i class="fas fa-user-cog"></i> Admin Control</a></li>
+      <li><a href="#"><i class="fas fa-history"></i> Riwayat Order</a></li>
+      <li><a href="#"><i class="fas fa-question-circle"></i> Bantuan</a></li>
+      <li><a href="#"><i class="fas fa-user-plus"></i> Register</a></li>
+      <li><a href="#"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+    </ul>
+  </nav>
+
+  <div class="modal-overlay" id="orderModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Form Pemesanan</h2>
+        <button class="modal-close" id="closeModal">&times;</button>
+      </div>
+      <div class="package-info">
+        <h3 id="selectedPackage">Paket 5 GB</h3>
+        <div class="price" id="selectedPrice">Rp5.000</div>
+      </div>
+      <form id="orderForm">
+        <div class="form-group">
+          <label for="panelName">Nama Panel:</label>
+          <input type="text" id="panelName" required placeholder="Masukkan nama panel">
+        </div>
+        <div class="form-group">
+          <label for="whatsapp">No WhatsApp:</label>
+          <input type="tel" id="whatsapp" required placeholder="Contoh: 628512345678">
+        </div>
+        <div class="form-group">
+          <label for="accountName">Atas Nama:</label>
+          <input type="text" id="accountName" required placeholder="Nama pemilik akun">
+        </div>
+        <button type="submit" class="form-submit">Lanjutkan ke WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="search-section" aria-label="Pencarian paket">
+      <div class="search-box">
+        <input type="text" placeholder="Cari paket hosting..." aria-label="Cari paket hosting" id="searchInput">
+        <button type="button" aria-label="Tombol pencarian" id="searchButton"><i class="fas fa-search"></i></button>
+      </div>
+    </section>
+
+    <section class="filter-section" aria-label="Filter kategori paket">
+      <div class="filter-buttons" role="list">
+        <button class="filter-btn active" data-filter="all" role="listitem" aria-pressed="true">Semua Paket</button>
+        <button class="filter-btn" data-filter="mini" role="listitem" aria-pressed="false">Mini</button>
+        <button class="filter-btn" data-filter="medium" role="listitem" aria-pressed="false">Medium</button>
+        <button class="filter-btn" data-filter="advanced" role="listitem" aria-pressed="false">Advanced</button>
+        <button class="filter-btn" data-filter="expert" role="listitem" aria-pressed="false">Expert</button>
+        <button class="filter-btn" data-filter="ultimate" role="listitem" aria-pressed="false">Ultimate</button>
+        <button class="filter-btn" data-filter="premium" role="listitem" aria-pressed="false">Premium</button>
+      </div>
+    </section>
+
+    <!-- Paket Dinamis 1-20GB -->
+    <div id="dynamic-packages"></div>
+
+    <!-- Ultimate -->
+    <section class="category" data-category="ultimate" aria-label="Kategori Paket Ultimate">
+      <div class="category-header">
+        <i class="fas fa-fire" aria-hidden="true"></i>
+        <h2>Paket Ultimate <span class="badge badge-new">POPULER</span></h2>
+      </div>
+      <div class="paket-list">
+        <article class="paket" tabindex="0" aria-label="25 GB - Harga Rp25.000">
+          <h3>25 GB</h3>
+          <div class="price">Rp25.000</div>
+          <div class="features">
+            <div><i class="fas fa-hdd"></i> SSD: Unlimited</div>
+            <div><i class="fas fa-network-wired"></i> Bandwidth: Unlimited</div>
+            <div><i class="fas fa-database"></i> Database: Unlimited</div>
+            <div><i class="fas fa-tachometer-alt"></i> CPU: 2 Core</div>
+          </div>
+          <button class="btn" data-package="25 GB" data-price="Rp25.000" aria-label="Beli paket 25 GB">Beli Sekarang</button>
+        </article>
+        <article class="paket" tabindex="0" aria-label="30 GB - Harga Rp30.000">
+          <h3>30 GB</h3>
+          <div class="price">Rp30.000</div>
+          <div class="features">
+            <div><i class="fas fa-hdd"></i> SSD: Unlimited</div>
+            <div><i class="fas fa-network-wired"></i> Bandwidth: Unlimited</div>
+            <div><i class="fas fa-database"></i> Database: Unlimited</div>
+            <div><i class="fas fa-tachometer-alt"></i> CPU: 4 Core</div>
+          </div>
+          <button class="btn" data-package="30 GB" data-price="Rp30.000" aria-label="Beli paket 30 GB">Beli Sekarang</button>
+        </article>
+      </div>
+    </section>
+
+    <!-- Premium -->
+    <section class="category" data-category="premium" aria-label="Kategori Paket Premium">
+      <div class="category-header">
+        <i class="fas fa-star" aria-hidden="true"></i>
+        <h2>Paket Premium</h2>
+      </div>
+      <div class="paket-list">
+        <article class="paket" tabindex="0" aria-label="40 GB - Harga Rp40.000">
+          <h3>40 GB</h3>
+          <div class="price">Rp40.000</div>
+          <div class="features">
+            <div><i class="fas fa-hdd"></i> SSD: Unlimited</div>
+            <div><i class="fas fa-network-wired"></i> Bandwidth: Unlimited</div>
+            <div><i class="fas fa-database"></i> Database: Unlimited</div>
+            <div><i class="fas fa-tachometer-alt"></i> CPU: 6 Core</div>
+            <div><i class="fas fa-rocket"></i> Priority Support</div>
+          </div>
+          <button class="btn" data-package="40 GB" data-price="Rp40.000" aria-label="Beli paket 40 GB">Beli Sekarang</button>
+        </article>
+        <article class="paket" tabindex="0" aria-label="50 GB - Harga Rp50.000">
+          <h3>50 GB</h3>
+          <div class="price">Rp50.000</div>
+          <div class="features">
+            <div><i class="fas fa-hdd"></i> SSD: Unlimited</div>
+            <div><i class="fas fa-network-wired"></i> Bandwidth: Unlimited</div>
+            <div><i class="fas fa-database"></i> Database: Unlimited</div>
+            <div><i class="fas fa-tachometer-alt"></i> CPU: 8 Core</div>
+            <div><i class="fas fa-rocket"></i> Priority Support</div>
+            <div><i class="fas fa-shield-alt"></i> Free SSL</div>
+          </div>
+          <button class="btn" data-package="50 GB" data-price="Rp50.000" aria-label="Beli paket 50 GB">Beli Sekarang</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Tentang RequAi</h3>
+        <p>RequAi Digital Store menyediakan layanan hosting terbaik dengan performa tinggi dan dukungan teknis 24/7 untuk kebutuhan website Anda.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Kontak Kami</h3>
+        <p><i class="fas fa-envelope"></i> Email: support@requai.com</p>
+        <p><i class="fas fa-phone"></i> Telepon: (021) 1234-5678</p>
+        <p><i class="fas fa-map-marker-alt"></i> Alamat: Jl. Teknologi No. 123, Jakarta</p>
+      </div>
+      
+      <div class="footer-section">
+        <h3>Ikuti Kami</h3>
+        <div class="social-icons">
+          <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 RequAi Digital Store. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script>
+    // Generate paket dinamis
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('dynamic-packages');
+      const kategori = [
+        { name: "mini", icon: "fa-leaf", label: "Mini (1–5GB)", start: 1, end: 5 },
+        { name: "medium", icon: "fa-bolt", label: "Medium (6–10GB)", start: 6, end: 10 },
+        { name: "advanced", icon: "fa-tools", label: "Advanced (11–15GB)", start: 11, end: 15 },
+        { name: "expert", icon: "fa-rocket", label: "Expert (16–20GB)", start: 16, end: 20 },
+      ];
+
+      kategori.forEach((kat) => {
+        const div = document.createElement("div");
+        div.className = "category";
+        div.dataset.category = kat.name;
+        div.setAttribute("aria-label", `Kategori Paket ${kat.label}`);
+        div.innerHTML = `
+          <div class="category-header">
+            <i class="fas ${kat.icon}" aria-hidden="true"></i>
+            <h2>Paket ${kat.label}</h2>
+          </div>
+          <div class="paket-list">
+            ${Array.from({ length: kat.end - kat.start + 1 }, (_, i) => {
+              const gb = kat.start + i;
+              const harga = gb * 1000;
+              const diskSpace = gb >= 10 ? "Unlimited" : `${gb * 2} GB`;
+              const bandwidth = gb >= 15 ? "Unlimited" : `${gb * 50} GB`;
+              const databases = gb >= 5 ? Math.floor(gb / 2) : 1;
+              
+              return `
+                <article class="paket" tabindex="0" aria-label="${gb} GB - Harga Rp${harga.toLocaleString('id-ID')}">
+                  <h3>${gb} GB</h3>
+                  <div class="price">Rp${harga.toLocaleString("id-ID")}</div>
+                  <div class="features">
+                    <div><i class="fas fa-hdd"></i> SSD: ${diskSpace}</div>
+                    <div><i class="fas fa-network-wired"></i> Bandwidth: ${bandwidth}</div>
+                    <div><i class="fas fa-database"></i> Database: ${databases}</div>
+                  </div>
+                  <button class="btn" data-package="${gb} GB" data-price="Rp${harga.toLocaleString('id-ID')}" aria-label="Beli paket ${gb} GB">Beli Sekarang</button>
+                </article>
+              `;
+            }).join("")}
+          </div>
+        `;
+        container.appendChild(div);
+      });
+      
+      // Inisialisasi event listeners setelah paket dibuat
+      initEventListeners();
+    });
+
+    function initEventListeners() {
+      // Fungsi filter kategori
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const categories = document.querySelectorAll(".category");
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach((btn) => {
+            btn.classList.remove("active");
+            btn.setAttribute("aria-pressed", "false");
+          });
+          button.classList.add("active");
+          button.setAttribute("aria-pressed", "true");
+
+          const filter = button.dataset.filter;
+          
+          categories.forEach((cat) => {
+            if (filter === "all" || cat.dataset.category === filter) {
+              cat.classList.remove("hidden");
+              setTimeout(() => {
+                cat.style.opacity = "1";
+                cat.style.transform = "translateY(0)";
+              }, 10);
+            } else {
+              cat.style.opacity = "0";
+              cat.style.transform = "translateY(10px)";
+              setTimeout(() => {
+                cat.classList.add("hidden");
+              }, 300);
+            }
+          });
+        });
+      });
+
+      // Toggle menu navigasi
+      const navToggle = document.querySelector(".nav-toggle");
+      const navMenu = document.getElementById("navMenu");
+      const navOverlay = document.getElementById("navOverlay");
+      
+      function toggleMenu() {
+        navMenu.classList.toggle("active");
+        navOverlay.classList.toggle("active");
+        document.body.style.overflow = navMenu.classList.contains("active") ? "hidden" : "";
+      }
+      
+      navToggle.addEventListener("click", toggleMenu);
+      navOverlay.addEventListener("click", toggleMenu);
+
+      // Fungsi scroll to top
+      const scrollToTopBtn = document.getElementById("scrollToTop");
+      
+      window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+          scrollToTopBtn.classList.add("visible");
+        } else {
+          scrollToTopBtn.classList.remove("visible");
+        }
+      });
+      
+      scrollToTopBtn.addEventListener("click", () => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+
+      // Fungsi pencarian
+      const searchInput = document.getElementById("searchInput");
+      const searchButton = document.getElementById("searchButton");
+      
+      function searchPackages() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        const packages = document.querySelectorAll(".paket");
+        const categories = document.querySelectorAll(".category");
+        
+        // Reset semua kategori dan paket
+        categories.forEach(cat => {
+          cat.classList.remove("hidden");
+          cat.style.opacity = "1";
+          cat.style.transform = "translateY(0)";
+        });
+        
+        packages.forEach(pkg => {
+          pkg.style.display = "flex";
+        });
+        
+        // Jika pencarian kosong, tampilkan semua
+        if (!searchTerm) return;
+        
+        // Filter paket berdasarkan pencarian
+        packages.forEach(pkg => {
+          const packageName = pkg.querySelector("h3").textContent.toLowerCase();
+          if (packageName.includes(searchTerm)) {
+            pkg.style.display = "flex";
+          } else {
+            pkg.style.display = "none";
+          }
+        });
+        
+        // Sembunyikan kategori yang tidak memiliki paket yang terlihat
+        categories.forEach(cat => {
+          const visiblePackages = cat.querySelectorAll('.paket[style="display: flex"]');
+          if (visiblePackages.length === 0) {
+            cat.style.opacity = "0";
+            cat.style.transform = "translateY(10px)";
+            setTimeout(() => {
+              cat.classList.add("hidden");
+            }, 300);
+          }
+        });
+      }
+      
+      searchButton.addEventListener("click", searchPackages);
+      searchInput.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+          searchPackages();
+        }
+      });
+
+      // Fungsi untuk modal form pemesanan
+      const orderModal = document.getElementById('orderModal');
+      const closeModal = document.getElementById('closeModal');
+      const orderForm = document.getElementById('orderForm');
+      const selectedPackage = document.getElementById('selectedPackage');
+      const selectedPrice = document.getElementById('selectedPrice');
+      const buyButtons = document.querySelectorAll('.btn');
+      const whatsappNumber = "6285123581626"; // Nomor WhatsApp tujuan
+
+      // Event listener untuk tombol beli
+      buyButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const packageName = this.getAttribute('data-package');
+          const packagePrice = this.getAttribute('data-price');
+          
+          // Set data paket yang dipilih
+          selectedPackage.textContent = packageName;
+          selectedPrice.textContent = packagePrice;
+          
+          // Tampilkan modal
+          orderModal.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      // Tutup modal
+      closeModal.addEventListener('click', function() {
+        orderModal.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+
+      // Tutup modal ketika klik di luar area modal
+      orderModal.addEventListener('click', function(e) {
+        if (e.target === orderModal) {
+          orderModal.classList.remove('active');
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Proses form ketika disubmit
+      orderForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Ambil nilai dari form
+        const panelName = document.getElementById('panelName').value;
+        const whatsapp = document.getElementById('whatsapp').value;
+        const accountName = document.getElementById('accountName').value;
+        const packageName = selectedPackage.textContent;
+        const packagePrice = selectedPrice.textContent;
+        
+        // Format pesan untuk WhatsApp
+        const message = `Halo, saya ingin memesan hosting:\n\n` +
+                       `📦 Paket: ${packageName}\n` +
+                       `💰 Harga: ${packagePrice}\n` +
+                       `🌐 Nama Panel: ${panelName}\n` +
+                       `📱 No WhatsApp: ${whatsapp}\n` +
+                       `👤 Atas Nama: ${accountName}\n\n` +
+                       `Saya sudah mengisi form dan ingin melanjutkan pembayaran.`;
+        
+        // Encode pesan untuk URL
+        const encodedMessage = encodeURIComponent(message);
+        
+        // Redirect ke WhatsApp
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+        
+        // Reset form dan tutup modal
+        orderForm.reset();
+        orderModal.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+  </script>
+</body>
+</html>
