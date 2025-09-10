@@ -1,0 +1,15 @@
+{
+  "name": "requai-digital-store",
+  "version": "1.0.0",
+  "description": "RequAi Digital Store - Panel Hosting Cepat, Aman & Terpercaya",
+  "main": "index.html",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r * dist/ 2>/dev/null || true",
+    "start": "python3 -m http.server 3000",
+    "dev": "python3 -m http.server 3000"
+  },
+  "keywords": ["hosting", "digital-store", "web-hosting"],
+  "author": "RequAi Digital Store",
+  "license": "MIT",
+  "type": "module"
+}
